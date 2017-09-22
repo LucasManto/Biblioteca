@@ -1,0 +1,3 @@
+gcc -c main.c BibliotecaDinamica.c Aluno.c Lista.c ListaComoFila.c ListaComoPilha.c
+gcc -o main.exe main.o BibliotecaDinamica.o Aluno.o Lista.o ListaComoFila.o ListaComoPilha.o
+./main.exe
