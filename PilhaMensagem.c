@@ -1,4 +1,4 @@
-#include "ListaComoPilha.h"
+#include "PilhaMensagem.h"
 
 void Create(Pilha *P){
 	P->topo = NULL;	
@@ -6,15 +6,15 @@ void Create(Pilha *P){
 
 void Push(Pilha *P, elem *X, int *erro){
 	
-	No *pont;
+	NoMensagem *pont;
 	
-	pont = (No*)malloc(sizeof(No));
+	pont = (NoMensagem*)malloc(sizeof(NoMensagem));
 	
 	if(pont==NULL)
 		*erro = 1;
 		else {
 			*erro = 0;
-			pont->info = *X;
+			pont->info = X;
 			pont->prox = P->topo;
 			P->topo = pont;			
 		}
@@ -22,13 +22,13 @@ void Push(Pilha *P, elem *X, int *erro){
 
 void Pop(Pilha *P, elem *X, int *erro){
 	
-	No *pont;
+	NoMensagem *pont;
 	
 	if(IsEmpty(P))
 		*erro = 1;
 		else {
 			*erro = 0;
-			*X = P->topo->info;
+			X = P->topo->info;
 			pont = P->topo;
 			P->topo = P->topo->prox;
 			free(pont);

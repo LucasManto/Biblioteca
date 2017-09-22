@@ -11,7 +11,7 @@ Aluno *CriaAluno(char *nome, int nUsp, int *telefone, char *email, int *erro) {
 	    a->nUsp = nUsp;
 	    a->telefone = telefone;
 	    a->email = email;
-	    // CriaPilha(&mensagens);
+	    Create(&a->mensagens);
 	}
 	
     return a;

@@ -5,11 +5,11 @@ void Cria(Fila *F){
 	F->fim = NULL;
 }
 
-void Entra(Fila *F, elem *X, int *erro){
+void Entra(Fila *F, Aluno *X, int *erro){
 	
-	No *p;
+	NoAluno *p;
 	
-	p = (No*)malloc(sizeof(No));
+	p = (NoAluno*)malloc(sizeof(NoAluno));
 	if(p==NULL)
 		*erro = 1;
 		else {
@@ -23,9 +23,9 @@ void Entra(Fila *F, elem *X, int *erro){
 		}
 }
 
-void Sai(Fila *F, elem *X, int *erro){
+void Sai(Fila *F, Aluno *X, int *erro){
 	
-	No *p;
+	NoAluno *p;
 	
 	if(EstaVazia(F))
 		*erro = 1;
@@ -48,9 +48,9 @@ int EstaVazia(Fila *F){
 
 int EstaCheia(Fila *F){
 	
-	No *p;
+	NoAluno *p;
 	
-	p=(No*)malloc(sizeof(No));
+	p=(NoAluno*)malloc(sizeof(NoAluno));
 	
 	if(p==NULL)
 		return 1;

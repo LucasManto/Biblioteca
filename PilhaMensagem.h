@@ -1,8 +1,14 @@
 #include <stdlib.h>
-#include "No.h"
+
+typedef char elem;
+
+typedef struct noMensagem {
+	elem *info;
+	struct noMensagem *prox;
+} NoMensagem;
 
 struct pilha {
-	No *topo;
+	NoMensagem *topo;
 };
 
 typedef struct pilha Pilha;

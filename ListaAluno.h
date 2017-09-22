@@ -1,11 +1,6 @@
 #include <stdlib.h>
 #include "Aluno.h"
 
-typedef struct noAluno {
-	Aluno info;
-	struct noAluno *prox;
-} NoAluno;
-
 typedef struct {
         NoAluno *inicio, *fim;
 } ListaAluno;

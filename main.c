@@ -55,9 +55,10 @@ int main() {
 	                	scanf("%d", &nUsp);
 	                	
 	                	if(nUsp != -1) {
-		                	a = BuscaAluno(&alunos, &nUsp);               	
+		                	a = BuscaAluno(&alunos, &nUsp);
+							a->info.nome = "Teste";               	
 		                	if(a != NULL) {
-		                		printf("\nUtilizando o sistema em nome do aluno:\n%s nUsp: %d\n\n", a->info.nome, a->info.nUsp);
+		                		printf("\nUtilizando o sistema em nome do aluno:\n\nNome: %s\tnUsp: %d\n\n", a->info.nome, a->info.nUsp);
 		                		MenuAluno();
 			                    scanf(" %d", &opcao);
 			                    printf("\n");
@@ -101,10 +102,17 @@ int main() {
                             break;
                         case 3:
                         	printf("Por favor, digite as informacoes do aluno\n");
+                        	printf("nUsp: ");
+                            scanf(" %d", &nUsp);
+                            a = BuscaAluno(&alunos, &nUsp);
+                            while(a != NULL) {
+                            	printf("\n\nnUsp em uso! Escolha outro:\n\n");
+                            	printf("nUsp: ");
+	                            scanf(" %d", &nUsp);
+	                            a = BuscaAluno(&alunos, &nUsp);
+							}
                             printf("Nome: ");
                             nome = LeString();
-                            printf("nUsp: ");
-                            scanf(" %d", &nUsp);
                             printf("Telefone (somente numeros e sem espaco): ");
                             telefone = LeTelefone();
                             printf("Email: ");
@@ -125,10 +133,9 @@ int main() {
 			                	scanf("%d", &nUsp);
 			                	
 			                	if(nUsp != -1) {
-			                		printf("Tamanho: %d\n", tamanho_a(&alunos));
 				                	a = BuscaAluno(&alunos, &nUsp);                	
 				                	if(a != NULL) {
-				                		printf("Voce realmente deseja excluir esse aluno?\n");
+				                		printf("\n\nVoce realmente deseja excluir esse aluno?\n");
 				                		printf("Nome: %s\n", a->info.nome);
 				                		printf("nUsp: %d\n", a->info.nUsp);
 //				                		printf("Telefone: %s\n", e->a.telefone);
@@ -139,9 +146,8 @@ int main() {
 				                		scanf("%d", &opcaoExclusao);
 				                		
 				                		if(opcaoExclusao == 1)
-                            				if(RemoverAluno(&alunos, a)) {
+                            				if(RemoverAluno(&alunos, a))
                             					printf("Remocao ocorreu com sucesso\nTamanho: %d\n\n", tamanho_a(&alunos));
-											}
 				                	}
 				                	else
 				                		printf("\nAluno nao encontrado! Tente novamente.\n\n");
