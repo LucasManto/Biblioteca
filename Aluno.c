@@ -1,6 +1,7 @@
-#include "Aluno.h"
+//#include "Aluno.h"
+//#include <stdlib.h>
 
-Aluno *CriaAluno(char *nome, int nUsp, int *telefone, char *email, int *erro) {
+Aluno *CriaAluno(char *nome, int nUsp, char *telefone, char *email, int *erro) {
     Aluno *a = (Aluno *) malloc(sizeof(Aluno));
     if(a == NULL) {
     	*erro = 0;

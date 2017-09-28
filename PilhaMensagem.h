@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 typedef char elem;
 
 typedef struct noMensagem {

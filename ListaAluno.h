@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include "Aluno.h"
+//#include "Aluno.h"
 
 typedef struct {
         NoAluno *inicio, *fim;

@@ -1,6 +1,6 @@
-#include "BibliotecaDinamica.h"
+//#include "BibliotecaDinamica.h"
 
-int CadastrarAluno(ListaAluno *alunos, char *nome, int nUsp, int *telefone, char *email) {
+int CadastrarAluno(ListaAluno *alunos, char *nome, int nUsp, char *telefone, char *email) {
     int erro;
     
     Aluno *a = CriaAluno(nome, nUsp, telefone, email, &erro);
@@ -15,49 +15,41 @@ NoAluno *BuscaAluno(ListaAluno *alunos, int *nUsp) {
 	return busca_na_lista_a(alunos, nUsp);
 }
 
-int RemoverAluno(ListaAluno *alunos, Aluno *a) {
+int RemoverAluno(ListaAluno *alunos, NoAluno *a) {
 	int erro;
     
     eliminar_a(alunos, a, &erro);
     
     return erro;
+}
+
+int CadastrarLivro(ListaLivro *livros, char *titulo, int isbn, char *autor, char *editora, int quantidade) {
+    int erro;
     
-//    eliminar_rec(alunos, NULL, alunos->inicio, e, &erro);
+    Livro *l = CriaLivro(titulo, autor, &isbn, editora, &quantidade, &erro);
+    if(erro == 0) return erro;
+    
+    inserir_l(livros, l, &erro);
+    
+    return erro;
 }
 
-char *LeString() {
-    char *str = NULL;
-    char aux;
-    int i = 0;
-
-    fflush(stdin);
-
-    aux = getchar();
-    while (aux != '\n') {
-        str = (char *) realloc(str, (i + 1) *sizeof(char));
-        str[i] = aux;
-        i++;
-        aux = getchar();
-    }
-    str[i] = '\0';
-
-    return str;
+NoLivro *BuscaLivro(ListaLivro *livros, int *isbn) {
+	return busca_na_lista_l(livros, isbn);
 }
 
-int *LeTelefone() {
-    int *str = NULL;
-    char aux;
-    int i = 0;
+int RemoverLivro(ListaLivro *livros, NoLivro *l) {
+	int erro;
+    
+    eliminar_l(livros, l, &erro);
+    
+    return erro;
+}
 
-    fflush(stdin);
-
-    aux = getchar();
-    while (aux != '\n') {
-        str = (int *) realloc(str, (i + 1) *sizeof(int));
-        str[i] = atoi(&aux);
-        i++;
-        aux = getchar();
-    }
-
-    return str;
+int ColocaNaFila(NoLivro *l, NoAluno *a) {
+	int erro;
+	
+	Entra(&l->info.fila, &a->info, &erro);
+	
+	return erro;
 }

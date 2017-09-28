@@ -1,4 +1,5 @@
-#include "PilhaMensagem.h"
+//#include "PilhaMensagem.h"
+//#include <stdlib.h>
 
 void Create(Pilha *P){
 	P->topo = NULL;	

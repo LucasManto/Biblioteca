@@ -1,11 +1,12 @@
-#include "ListaComoFila.h"
+//#include "FilaAluno.h"
+//#include <stdlib.h>
 
-void Cria(Fila *F){
+void Cria(FilaAluno *F){
 	F->inicio = NULL;
 	F->fim = NULL;
 }
 
-void Entra(Fila *F, Aluno *X, int *erro){
+void Entra(FilaAluno *F, Aluno *X, int *erro){
 	
 	NoAluno *p;
 	
@@ -23,7 +24,7 @@ void Entra(Fila *F, Aluno *X, int *erro){
 		}
 }
 
-void Sai(Fila *F, Aluno *X, int *erro){
+void Sai(FilaAluno *F, Aluno *X, int *erro){
 	
 	NoAluno *p;
 	
@@ -40,13 +41,13 @@ void Sai(Fila *F, Aluno *X, int *erro){
 		}	
 }
 
-int EstaVazia(Fila *F){
+int EstaVazia(FilaAluno *F){
 	if(F->inicio == NULL)
 		return 1;
 		else return 0;
 }
 
-int EstaCheia(Fila *F){
+int EstaCheia(FilaAluno *F){
 	
 	NoAluno *p;
 	
