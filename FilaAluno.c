@@ -1,5 +1,4 @@
-//#include "FilaAluno.h"
-//#include <stdlib.h>
+#include "FilaAluno.h"
 
 void Cria(FilaAluno *F){
 	F->inicio = NULL;
@@ -12,9 +11,9 @@ void Entra(FilaAluno *F, Aluno *X, int *erro){
 	
 	p = (NoAluno*)malloc(sizeof(NoAluno));
 	if(p==NULL)
-		*erro = 1;
+		*erro = 0;
 		else {
-			*erro = 0;
+			*erro = 1;
 			p->info = *X;
 			p->prox = NULL;
 			if(F->inicio == NULL)
@@ -29,9 +28,9 @@ void Sai(FilaAluno *F, Aluno *X, int *erro){
 	NoAluno *p;
 	
 	if(EstaVazia(F))
-		*erro = 1;
+		*erro = 0;
 		else {
-			*erro = 0;
+			*erro = 1;
 			*X = F->inicio->info;
 			p = F->inicio;
 			F->inicio = F->inicio->prox;

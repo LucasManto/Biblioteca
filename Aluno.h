@@ -1,4 +1,9 @@
-//#include "PilhaMensagem.h"
+#ifndef ALUNO_H
+#define ALUNO_H
+
+#include <stdlib.h>
+#include "PilhaMensagem.h"
+#include <string.h>
 
 typedef struct {
     char *nome;
@@ -14,3 +19,5 @@ typedef struct noAluno {
 } NoAluno;
 
 Aluno *CriaAluno(char *nome, int nUsp, char *telefone, char *email, int *erro);
+
+#endif

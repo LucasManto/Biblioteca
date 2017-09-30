@@ -1,4 +1,7 @@
-//#include "FilaAluno.h"
+#ifndef LIVRO_H
+#define LIVRO_H
+
+#include "FilaAluno.h"
 
 typedef struct {
     char *titulo;
@@ -15,3 +18,5 @@ typedef struct noLivro {
 } NoLivro;
 
 Livro *CriaLivro(char *titulo, char *autor, int *isbn, char *editora, int *quantidade, int *erro);
+
+#endif

@@ -1,5 +1,4 @@
-//#include "ListaAluno.h"
-//#include <stdlib.h>
+#include "ListaAluno.h"
 
 void cria_a(ListaAluno *L){
 	L->inicio = NULL;

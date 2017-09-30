@@ -1,5 +1,4 @@
-//#include "Livro.h"
-//#include <stdlib.h>
+#include "Livro.h"
 
 Livro *CriaLivro(char *titulo, char *autor, int *isbn, char *editora, int *quantidade, int *erro){
     Livro *l = (Livro*) malloc(sizeof(Livro));
@@ -8,12 +7,16 @@ Livro *CriaLivro(char *titulo, char *autor, int *isbn, char *editora, int *quant
 	}
 	else {
 		*erro = 1;
-	    l->titulo = titulo;
-	    l->autor = autor;
+	    l->titulo = (char *) malloc(50*sizeof(char));
 	    l->isbn = *isbn;
-	    l->editora = editora;
+		l->autor = (char *) malloc(50*sizeof(char));
+		l->editora = (char *) malloc(50*sizeof(char));
 	    l->quantidade = *quantidade;
-//	    Cria(&l->fila);
+	    Cria(&l->fila);
+	    
+	    strcpy(l->titulo, titulo);
+	    strcpy(l->autor, autor);
+	    strcpy(l->editora, editora);
 	}
 
     return l;

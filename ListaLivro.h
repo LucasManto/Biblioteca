@@ -1,4 +1,8 @@
-//#include "Livro.h"
+#ifndef LISTA_LIVRO_H
+#define LISTA_LIVRO_H
+
+#include "Livro.h"
+#include <stdlib.h>
 
 typedef struct {
         NoLivro *inicio, *fim;
@@ -15,3 +19,5 @@ int esta_na_lista_rec_l(NoLivro *p, Livro *X);
 void eliminar_l(ListaLivro *L, NoLivro *x, int *erro);
 void eliminar_rec_l(ListaLivro *L, NoLivro* anterior, NoLivro* atual, Livro *X, int *erro);
 NoLivro *busca_na_lista_l(ListaLivro *L, int *isbn);
+
+#endif

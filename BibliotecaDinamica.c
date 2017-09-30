@@ -1,4 +1,4 @@
-//#include "BibliotecaDinamica.h"
+#include "BibliotecaDinamica.h"
 
 int CadastrarAluno(ListaAluno *alunos, char *nome, int nUsp, char *telefone, char *email) {
     int erro;
@@ -50,6 +50,14 @@ int ColocaNaFila(NoLivro *l, NoAluno *a) {
 	int erro;
 	
 	Entra(&l->info.fila, &a->info, &erro);
+	
+	return erro;
+}
+
+int RemoveDaFila(NoLivro *l, NoAluno *a) {
+	int erro;
+
+	Sai(&l->info.fila, &a->info, &erro);
 	
 	return erro;
 }
