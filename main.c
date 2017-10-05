@@ -1,6 +1,12 @@
 #include <stdio.h>
+#include <string.h>
 #include "BibliotecaDinamica.h"
-//#include "BibliotecaEstatica.h"
+
+void Espera() {
+	printf("Pressione qualquer tecla para continuar.\n\n");
+	fflush(stdin);
+	getchar();
+}
 
 void MenuAluno() {
     printf("1- Retirar Livro\n");
@@ -27,338 +33,349 @@ void MenuPrincipal() {
 }
 
 int main() {
+	ListaAluno alunos;
+	ListaLivro livros;
 	
-	int erro;
+	Aluno a;
+	int nUsp;
+	char nome[100], email[100], telefone[100];
 	
+	Livro l;
+	int isbn, quantidade;
+	char titulo[100], autor[100], editora[100];
 	
-    ListaAluno alunos;
-    ListaLivro livros;
-    int opcaoMenu, opcao;
-    
-    // Variavel Pilha Mensagem
-	char m[50];
-    
-    // Variaveis p/ Aluno
-    NoAluno *a = NULL;
-	char nome[50], email[50], telefone[15];
-    int nUsp;
-    
-    // Variaveis p/ Livro
-    NoLivro *l = NULL;
-    int isbn, quantidade;
-    char titulo[50], autor[50], editora[50];
-
-    cria_a(&alunos);
-    cria_l(&livros);
-
-    MenuPrincipal();
-    scanf(" %d", &opcaoMenu);
-    printf("\n");
-    while (opcaoMenu != 0) {
-        switch (opcaoMenu) {
-            case 1:
-        		if(tamanho_a(&alunos) == 0) {
-            		printf("Nao ha alunos cadastrados! Cadastre um aluno na secao Administracao para utilizar essa area.\n");
-            		printf("Pressione qualquer tecla para continuar.\n\n");
-            		fflush(stdin);
-            		getchar();
-            		break;
-				}
-                while (opcaoMenu != 0) {
-                	while(a == NULL && nUsp != -1) {
-	                	printf("Digite o nUsp do aluno ou -1 para voltar: ");
-	                	scanf("%d", &nUsp);
-	                	
-	                	if(nUsp != -1) {
-		                	a = BuscaAluno(&alunos, &nUsp);
-		                	if(a != NULL) {
-		                		while(opcaoMenu != 0) {
-			                		printf("\nUtilizando o sistema em nome do aluno:\n\nNome: %s\tnUsp: %d\n\n", a->info.nome, a->info.nUsp);
-			                		MenuAluno();
-				                    scanf(" %d", &opcaoMenu);
-				                    printf("\n");
-				                    switch (opcaoMenu) {
-				                        case 1:
-				                        	if(tamanho_l(&livros)  == 0) {
-				                        		printf("Nao ha livros cadastrados! Cadastre um livro na secao Administracao para utilizar essa area.\n");
-				                        		printf("Pressione qualquer tecla para continuar.\n\n");
-				                        		fflush(stdin);
-				                        		getchar();
-				                        		break;
-											}
-				                        	while(l == NULL && isbn != -1) {
-							                	printf("Digite o ISBN do livro ou -1 para voltar: ");
-							                	scanf("%d", &isbn);
-							                	
-							                	if(isbn != -1) {
-								                	l = BuscaLivro(&livros, &isbn);                	
-								                	if(l != NULL) {
-								                		if(l->info.quantidade > 0) {
-									                		printf("\n\nVoce realmente deseja retirar esse livro?\n\n");
-									                		printf("Titulo: %s\n", l->info.titulo);
-									                		printf("ISBN: %d\n", l->info.isbn);
-									                		printf("Autor: %s\n", l->info.autor);
-									                		printf("Editora: %s\n\n", l->info.editora);
-									                		
-									                		printf("Digite 1 para excluir ou 0 para cancelar: ");
-									                		scanf("%d", &opcao);
-									                		printf("\n");
-									                		
-									                		if(opcao == 1) {
-									                			l->info.quantidade--;
-									                			printf("\nLivro retirado com sucesso!\n\n");
-															}
-														}
-														else {
-															if(ColocaNaFila(l, a)) {
-																printf("\n\nTodos os livros com esse ISBN estao alugados. Voce recebera uma mensagem quando ele estiver disponivel\n");
-															}
-															else {
-																printf("Nao foi possivel inserir na fila de espera. Fila cheia\n");															
-															}
-														}
-														
-														printf("Pressione qualquer tecla para continuar.\n\n");
-						                        		fflush(stdin);
-						                        		getchar();
-								                	}
-								                	else
-								                		printf("\nLivro nao encontrado! Tente novamente.\n\n");
-								                }
-											}
-											l = NULL;
-											isbn = 0;
-				                            break;
-				                        case 2:
-				                            while(l == NULL && isbn != -1) {
-							                	printf("Digite o ISBN do livro ou -1 para voltar: ");
-							                	scanf("%d", &isbn);
-							                	
-							                	if(isbn != -1) {
-								                	l = BuscaLivro(&livros, &isbn);                	
-								                	if(l != NULL) {
-								                		printf("\n\nVoce realmente deseja devolver esse livro?\n\n");
-								                		printf("Titulo: %s\n", l->info.titulo);
-								                		printf("ISBN: %d\n", l->info.isbn);
-								                		printf("Autor: %s\n", l->info.autor);
-								                		printf("Editora: %s\n\n", l->info.editora);
-								                		
-								                		printf("Digite 1 para excluir ou 0 para cancelar: ");
-								                		scanf("%d", &opcao);
-								                		printf("\n");
-								                		
-								                		if(opcao == 1) {
-								                			l->info.quantidade++;
-								                			printf("\nLivro devolvido com sucesso!\n\n");
-								                			RemoveDaFila(l, a);
-								                			sprintf(m, "Livro disponivel.\n ISBN: %d\tTitulo: %s\n", l->info.isbn, l->info.titulo);
-															Push(&a->info.mensagens, m, &erro);
-								                			printf("Pressione qualquer tecla para continuar.\n\n");
-							                        		fflush(stdin);
-							                        		getchar();
-														}
-								                	}
-								                	else
-								                		printf("\nLivro nao encontrado! Tente novamente.\n\n");
-								                }
-											}
-											l = NULL;
-											isbn = 0;
-				                            break;
-				                        case 3:
-				                        	if(!IsEmpty(&a->info.mensagens)) {
-					                        	while(!IsEmpty(&a->info.mensagens)) {
-					                        		Pop(&a->info.mensagens, m, &erro);
-					                        		printf("%s\n", m);
-												}
-											}
-											else
-												printf("Nao ha mensagens.\n");
-											printf("Pressione qualquer tecla para continuar.\n\n");
-			                        		fflush(stdin);
-			                        		getchar();
-				                        	break;
-				                        case 0:
-				                        	a = NULL;
-				                            break;
-				                        default:
-				                            printf("Digite uma opcao valida\n\n");
-				                            break;
-				                    }
+	int opcao, confirmacao;
+	
+	cria_a(&alunos);
+	cria_l(&livros);
+	
+	while(1) {
+		MenuPrincipal();
+		scanf("%d", &opcao);
+		printf("\n");
+		
+		if(opcao == 1) {
+			nUsp = 1;
+			while(1 && nUsp != -1) {
+				printf("Digite as informacoes do aluno ou -1 para sair: \n");
+				printf("nUsp: ");
+				scanf("%d", &nUsp);
+				printf("\n");
+				if(nUsp != -1 && !BuscarAluno(&alunos, &a, &nUsp)) {
+					printf("Usando o sistema em nome do aluno:\n");
+					printf("Nome: %s\tnUsp: %d\n\n", a.nome, a.nUsp);
+					
+					while(1) {
+						MenuAluno();
+						scanf("%d", &opcao);
+						printf("\n");
+						if(opcao == 1) {
+							isbn = 0;
+							while(1 && isbn != -1) {
+								printf("Digite as informacoes do livro ou -1 para sair: \n");
+								printf("ISBN: ");
+								scanf("%d", &isbn);
+								if(isbn != -1 && !BuscarLivro(&livros, &l, &isbn)) {
+									printf("Titulo: %s\n", l.titulo);
+									printf("Autor: %s\n", l.autor);
+									printf("Editora: %s\n", l.editora);
+									printf("Quantidade: %d\n\n", l.quantidade);
+									
+									confirmacao = -1;
+									while(confirmacao != 0 && confirmacao != 1) {
+										printf("Deseja retirar esse livro?\n");
+										printf("Digite 1 para confirmar ou 0 para cancelar\n\n");
+										printf("Opcao: ");
+										scanf("%d", &confirmacao);
+										printf("\n");
+									}
+									
+									if(confirmacao == 1) {
+										if(RetirarLivro(&alunos, &a.nUsp, &livros, &isbn)) {
+											printf("Livro retirado com sucesso.\n\n");
+										}
+										else {
+											printf("Voce foi colocado na fila de espera. Assim que o livro estiver disponivel recebera uma mensagem.\n");
+										}
+									}
+									else {
+										printf("Livro nao foi retirado.\n\n");
+									}
+									
+									break;
 								}
-		                	}
-		                	else
-		                		printf("\nAluno nao encontrado! Tente novamente.\n\n");
-		                }
-		                else {
-		                	opcaoMenu = 0;
-		                	printf("\n");
+								else {
+									if(isbn != -1)
+										printf("Livro nao encontrado, escolha outro ISBN\n\n");
+								}
+							}
+//							Espera();
+						}
+						else if(opcao == 2) {
+							isbn = 0;
+							while(1 && isbn != -1) {
+								printf("Digite as informacoes do livro ou -1 para sair: \n");
+								printf("ISBN: ");
+								scanf("%d", &isbn);
+								if(isbn != -1 && !BuscarLivro(&livros, &l, &isbn)) {
+									printf("Titulo: %s\n", l.titulo);
+									printf("Autor: %s\n", l.autor);
+									printf("Editora: %s\n", l.editora);
+									printf("Quantidade: %d\n\n", l.quantidade);
+									
+									confirmacao = -1;
+									while(confirmacao != 0 && confirmacao != 1) {
+										printf("Deseja devolver esse livro?\n");
+										printf("Digite 1 para confirmar ou 0 para cancelar\n\n");
+										printf("Opcao: ");
+										scanf("%d", &confirmacao);
+										printf("\n");
+									}
+									
+									if(confirmacao == 1) {
+										DevolverLivro(&livros, &isbn);
+										printf("Livro devolvido com sucesso.\n\n");
+									}
+									else {
+										printf("Livro nao foi devolvido.\n\n");
+									}
+									
+									break;
+								}
+								else {
+									if(isbn != -1)
+										printf("Livro nao encontrado, escolha outro ISBN\n\n");
+								}
+							}
+						}
+						else if(opcao == 3) {
+							if(!VerMensagens(&alunos, &nUsp)) {
+								printf("Nao ha mensagens.\n\n");
+							}
+							Espera();
+						}
+						else if(opcao == 0)
+							break;
+						else {
+							printf("Digite uma opcao valida.\n\n");
 						}
 					}
-					nUsp = 0;
+					
+					break;
 				}
-                break;
-            case 2:
-                while (opcaoMenu != 0) {
-                    MenuAdministracao();
-                    scanf(" %d", &opcaoMenu);
-                    printf("\n");
-                    switch (opcaoMenu) {
-                        case 1:
-                            printf("Por favor, digite as informacoes do livro\n");
-                        	printf("ISBN: ");
-                            scanf(" %d", &isbn);
-                            l = BuscaLivro(&livros, &isbn);
-                            while(l != NULL) {
-                            	printf("\n\nISBN em uso! Escolha outro:\n\n");
-                            	printf("ISBN: ");
-	                            scanf(" %d", &isbn);
-	                            l = BuscaLivro(&livros, &isbn);
-							}
-                            printf("Titulo: ");
+				else {
+					if(nUsp != -1)
+						printf("Aluno nao encontrado, escolha outro nUsp\n\n");
+				}
+			}
+			Espera();
+		}
+		else if(opcao == 2) {
+			while(1) {
+				MenuAdministracao();
+				scanf("%d", &opcao);
+				printf("\n");
+				if(opcao == 1) {
+					isbn = 0;
+					while(1 && isbn != -1) {
+						printf("Digite as informacoes do livro ou -1 para sair: \n");
+						printf("ISBN: ");
+						scanf("%d", &isbn);
+						if(isbn != -1 && BuscarLivro(&livros, &l, &isbn)) {
+							printf("Titulo: ");
 							fflush(stdin);
 							gets(titulo);
-                            printf("Autor: ");
-                            gets(autor);
-                            printf("Editora: ");
+							printf("Autor: ");
 							fflush(stdin);
-                            gets(editora);
-                            printf("Quantidade: ");
-                            scanf(" %d", &quantidade);
-                            
-                            if(CadastrarLivro(&livros, titulo, isbn, autor, editora, quantidade));
-							else printf("\nCadastro realizado com sucesso!\n");
-							printf("Pressione qualquer tecla para continuar.\n\n");
-                    		fflush(stdin);
-                    		getchar();
-                            break;
-                        case 2:
-                            if(tamanho_l(&livros) == 0) {
-			            		printf("Nao ha livros cadastrados! Cadastre um livro na secao Administracao para utilizar essa area.\n");
-			            		printf("Pressione qualquer tecla para continuar.\n\n");
-                        		fflush(stdin);
-                        		getchar();
-			            		break;
+							gets(autor);
+							printf("Editora: ");
+							fflush(stdin);
+							gets(editora);
+							printf("Quantidade: ");
+							fflush(stdin);
+							scanf("%d", &quantidade);
+							
+							CadastrarLivro(&livros, &isbn, titulo, autor, editora, &quantidade);
+							break;
+						}
+						else {
+							if(isbn != -1)
+								printf("Livro ja cadastrado, escolha outro ISBN\n\n");
+						}
+					}
+					Espera();
+				}
+				else if(opcao == 2) {
+					isbn = 0;
+					while(1 && isbn != -1) {
+						printf("Digite as informacoes do livro ou -1 para sair: \n");
+						printf("ISBN: ");
+						scanf("%d", &isbn);
+						if(isbn != -1 && !BuscarLivro(&livros, &l, &isbn)) {
+							printf("Titulo: %s\n", l.titulo);
+							printf("Autor: %s\n", l.autor);
+							printf("Editora: %s\n\n", l.editora);
+							
+							confirmacao = -1;
+							while(confirmacao != 0 && confirmacao != 1) {
+								printf("Deseja excluir esse livro?\n");
+								printf("Digite 1 para confirmar ou 0 para cancelar\n\n");
+								printf("Opcao: ");
+								scanf("%d", &confirmacao);
 							}
-							while(l == NULL && isbn != -1) {
-			                	printf("Digite o ISBN do livro ou -1 para voltar: ");
-			                	scanf("%d", &isbn);
-			                	
-			                	if(isbn != -1) {
-				                	l = BuscaLivro(&livros, &isbn);                	
-				                	if(l != NULL) {
-				                		printf("\n\nVoce realmente deseja excluir esse livro?\n");
-				                		printf("Titulo: %s\n", l->info.titulo);
-				                		printf("ISBN: %d\n", l->info.isbn);
-				                		printf("Autor: %s\n", l->info.autor);
-				                		printf("Editora: %s\n", l->info.editora);
-				                		printf("Quantidade: %d\n\n", l->info.quantidade);
-				                		
-				                		printf("Digite 1 para excluir ou 0 para cancelar: ");
-				                		scanf("%d", &opcao);
-				                		printf("\n");
-				                		
-				                		if(opcao == 1)
-                            				if(RemoverLivro(&livros, l))
-                            					printf("\nLivro removido com sucesso\n\n");
-                            			else
-                            				printf("Remocao cancelada.\n");
-                            				
-                            			printf("Pressione qualquer tecla para continuar.\n\n");
-		                        		fflush(stdin);
-		                        		getchar();
-				                	}
-				                	else
-				                		printf("\nLivro nao encontrado! Tente novamente.\n\n");
-				                }
+							
+							if(confirmacao == 1) {
+								RemoverLivro(&livros, &isbn);
+								printf("Livro removido com sucesso.\n\n");
 							}
-							l = NULL;
-							isbn = 0;
-                            break;
-                        case 3:
-                        	printf("Por favor, digite as informacoes do aluno\n");
-                        	printf("nUsp: ");
-                            scanf(" %d", &nUsp);
-                            a = BuscaAluno(&alunos, &nUsp);
-                            while(a != NULL) {
-                            	printf("\n\nnUsp em uso! Escolha outro:\n\n");
-                            	printf("nUsp: ");
-	                            scanf(" %d", &nUsp);
-	                            a = BuscaAluno(&alunos, &nUsp);
+							else {
+								printf("Remocao cancelada.\n\n");
 							}
-                            printf("Nome: ");
+							
+							break;
+						}
+						else {
+							if(isbn != -1)
+								printf("Livro nao encontrado, escolha outro ISBN\n\n");
+						}
+					}
+					Espera();
+				}
+				else if(opcao == 3) {
+					nUsp = 1;
+					while(1 && nUsp != -1) {
+						printf("Digite as informacoes do aluno ou -1 para sair: \n");
+						printf("nUsp: ");
+						scanf("%d", &nUsp);
+						if(nUsp != -1 && BuscarAluno(&alunos, &a, &nUsp)) {
+							printf("Nome: ");
 							fflush(stdin);
 							gets(nome);
-                            printf("Telefone (somente numeros e sem espaco): ");
-                            gets(telefone);
-                            printf("Email: ");
+							printf("Email: ");
 							fflush(stdin);
-                            gets(email);
-                            
-                            if(CadastrarAluno(&alunos, nome, nUsp, telefone, email));
-							else printf("\nCadastro realizado com sucesso!\n");
-							printf("Pressione qualquer tecla para continuar.\n\n");
-                    		fflush(stdin);
-                    		getchar();
-                            break;
-                        case 4:
-                        	if(tamanho_a(&alunos) == 0) {
-			            		printf("Nao ha alunos cadastrados! Cadastre um aluno na secao Administracao para utilizar essa area.\n");
-			            		printf("Pressione qualquer tecla para continuar.\n\n");
-                        		fflush(stdin);
-                        		getchar();
-			            		break;
+							gets(email);
+							printf("Telefone: ");
+							fflush(stdin);
+							gets(telefone);
+							
+							CadastrarAluno(&alunos, &nUsp, nome, email, telefone);
+							break;
+						}
+						else {
+							if(nUsp != -1)
+								printf("Aluno ja cadastrado, escolha outro nUsp\n\n");
+						}
+					}
+					Espera();
+				}
+				else if(opcao == 4) {
+					nUsp = 0;
+					while(1 && nUsp != -1) {
+						printf("Digite as informacoes do aluno ou -1 para sair: \n");
+						printf("nUsp: ");
+						scanf("%d", &nUsp);
+						if(nUsp != -1 && !BuscarAluno(&alunos, &a, &nUsp)) {
+							printf("Nome: %s\n", a.nome);
+							printf("Email: %s\n", a.email);
+							printf("Telefone: %s\n\n", a.telefone);
+							
+							confirmacao = -1;
+							while(confirmacao != 0 && confirmacao != 1) {
+								printf("Deseja excluir esse aluno?\n");
+								printf("Digite 1 para confirmar ou 0 para cancelar\n\n");
+								printf("Opcao: ");
+								scanf("%d", &confirmacao);
 							}
-							while(a == NULL && nUsp != -1) {
-			                	printf("Digite o nUsp do aluno ou -1 para voltar: ");
-			                	scanf("%d", &nUsp);
-			                	
-			                	if(nUsp != -1) {
-				                	a = BuscaAluno(&alunos, &nUsp);                	
-				                	if(a != NULL) {
-				                		printf("\n\nVoce realmente deseja excluir esse aluno?\n");
-				                		printf("Nome: %s\n", a->info.nome);
-				                		printf("nUsp: %d\n", a->info.nUsp);
-				                		printf("Telefone: %s\n", a->info.telefone);
-				                		printf("Email: %s\n\n", a->info.email);
-				                		
-				                		printf("Digite 1 para excluir ou 0 para cancelar: ");
-				                		scanf("%d", &opcao);
-				                		printf("\n");
-				                		
-				                		if(opcao == 1) {
-                            				if(RemoverAluno(&alunos, a))
-                            					printf("\nAluno removido com sucesso\n\n");
-										}
-                            			else
-                            				printf("Remocao cancelada.\n");
-                            				printf("Pressione qualquer tecla para continuar.\n\n");
-			                        		fflush(stdin);
-			                        		getchar();
-				                	}
-				                	else
-				                		printf("\nAluno nao encontrado! Tente novamente.\n\n");
-				                }
+							
+							if(confirmacao == 1) {
+								RemoverDaFila(&livros, &nUsp);
+								RemoverAluno(&alunos, &nUsp);
+								printf("Aluno removido com sucesso.\n\n");
 							}
-							a = NULL;
-							nUsp = 0;
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            printf("Digite uma opcao valida.\n\n");
-                            break;
-                    }
-                }
-                break;
-            default:
-            	printf("Digite uma opcao valida.\n\n");
-        }
-        MenuPrincipal();
-        scanf(" %d", &opcaoMenu);
-        printf("\n");
-    }
-
-    getchar();
-    return 0;
+							else {
+								printf("Remocao cancelada.\n\n");
+							}
+							
+							break;
+						}
+						else {
+							if(nUsp != -1)
+								printf("Aluno nao encontrado, escolha outro nUsp\n\n");
+						}
+					}
+					Espera();
+				}
+				else if(opcao == 0)
+					break;
+				else {
+					printf("Digite uma opcao valida.\n\n");
+				}
+			}
+		}
+		else if(opcao == 0)
+			break;
+		else {
+			printf("Digite uma opcao valida.\n\n");
+		}
+	}
+	
+	return 0;
 }
+//	nUsp = 1;
+//	strcpy(nome, "lucas");
+//	strcpy(email, "lucas@usp");
+//	strcpy(telefone, "5514");
+//	CadastrarAluno(&alunos, &nUsp, nome, email, telefone);
+//	
+//	nUsp = 2;
+//	strcpy(nome, "felipe");
+//	strcpy(email, "felipe@usp");
+//	strcpy(telefone, "5516");
+//	CadastrarAluno(&alunos, &nUsp, nome, email, telefone);
+//	
+//	isbn = 11;
+//	strcpy(titulo, "a");
+//	strcpy(autor, "b");
+//	strcpy(editora, "c");
+//	quantidade = 0;
+//	CadastrarLivro(&livros, &isbn, titulo, autor, editora, &quantidade);
+//	
+//	isbn = 11;
+//	BuscarLivro(&livros, &l, &isbn);	
+//	printf("ISBN: %d\n", l.isbn);
+//	printf("Titulo: %s\n", l.titulo);
+//	printf("Autor: %s\n", l.autor);
+//	printf("Editora: %s\n", l.editora);
+//	printf("Quantidade: %d\n", l.quantidade);
+//	
+//	nUsp = 1;
+//	RetirarLivro(&alunos, &nUsp, &livros, &isbn);
+//	
+//	isbn = 11;
+//	BuscarLivro(&livros, &l, &isbn);	
+//	printf("\n\nISBN: %d\n", l.isbn);
+//	printf("Titulo: %s\n", l.titulo);
+//	printf("Autor: %s\n", l.autor);
+//	printf("Editora: %s\n", l.editora);
+//	printf("Quantidade: %d\n", l.quantidade);
+//	
+//	nUsp = 2;
+//	RetirarLivro(&alunos, &nUsp, &livros, &isbn);
+//	
+//	nUsp = 1;
+//	RemoverDaLista(&livros, &nUsp);
+//	RemoverAluno(&alunos, &nUsp);
+//	
+//	DevolverLivro(&livros, &isbn);
+//	
+//	isbn = 11;
+//	BuscarLivro(&livros, &l, &isbn);	
+//	printf("\n\nISBN: %d\n", l.isbn);
+//	printf("Titulo: %s\n", l.titulo);
+//	printf("Autor: %s\n", l.autor);
+//	printf("Editora: %s\n", l.editora);
+//	printf("Quantidade: %d\n", l.quantidade);
+//	
+//	printf("\n");
+//	nUsp = 2;
+//	printf("Mensagem aluno 2: "); VerMensagens(&alunos, &nUsp);

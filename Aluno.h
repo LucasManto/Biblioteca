@@ -1,23 +1,17 @@
-#ifndef ALUNO_H
-#define ALUNO_H
+#ifndef aluno_h
+#define aluno_h
 
-#include <stdlib.h>
 #include "PilhaMensagem.h"
-#include <string.h>
 
 typedef struct {
-    char *nome;
-    int nUsp;
-    char *telefone;
-    char *email;
-    Pilha mensagens;
+	int nUsp;
+	char nome[100], email[100], telefone[100];
+	Pilha mensagens;
 } Aluno;
 
 typedef struct noAluno {
-	Aluno info;
-	struct noAluno *prox;
+        Aluno *info;
+        struct noAluno *prox;
 } NoAluno;
-
-Aluno *CriaAluno(char *nome, int nUsp, char *telefone, char *email, int *erro);
 
 #endif

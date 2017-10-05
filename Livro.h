@@ -1,22 +1,17 @@
-#ifndef LIVRO_H
-#define LIVRO_H
+#ifndef livro_h
+#define livro_h
 
 #include "FilaAluno.h"
 
 typedef struct {
-    char *titulo;
-    char *autor;
-    int isbn;
-    char *editora;
-    int quantidade;
-    FilaAluno fila;
+	int isbn, quantidade;
+	char titulo[100], autor[100], editora[100];
+	FilaAluno fila;
 } Livro;
 
 typedef struct noLivro {
-	Livro info;
-	struct noLivro *prox;
+        Livro *info;
+        struct noLivro *prox;
 } NoLivro;
-
-Livro *CriaLivro(char *titulo, char *autor, int *isbn, char *editora, int *quantidade, int *erro);
 
 #endif

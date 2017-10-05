@@ -15,7 +15,7 @@ void inserir_a(ListaAluno *L, Aluno *X, int *erro){
 		return;
 	} else *erro = 0;
 	
-	p->info = *X;
+	p->info = X;
 	p->prox = NULL;
 	
 	if(L->inicio == NULL)
@@ -41,18 +41,6 @@ void finaliza_a(ListaAluno *L){
 	L->fim = p;
 }
 
-int tamanho_rec_a(NoAluno *p){
-	
-	if(p==NULL)
-		return 0;
-		else return(1+tamanho_rec_a(p->prox));
-	
-}
-
-int tamanho_rec_lista_a(ListaAluno *L){
-	return tamanho_rec_a(L->inicio);
-}
-
 int tamanho_a(ListaAluno *L){
 	
 	NoAluno *p;
@@ -68,57 +56,12 @@ int tamanho_a(ListaAluno *L){
 	return count;
 }
 
-void eliminar_a(ListaAluno *L, NoAluno *X, int *erro) {
-	NoAluno *p = L->inicio, *ant = NULL;
-	
-	while((p != X) && (p != NULL)) {
-		ant = p;
-		p = p->prox;
-	}
-	
-	if(p == NULL) *erro = 0;
-	else {
-		*erro = 1;
-		if(p == L->inicio) {
-			L->inicio = L->inicio->prox;
-			if(L->inicio == NULL) L->fim = NULL;
-		}
-		else if(p == L->fim) {
-			L->fim = ant;
-			L->fim->prox = NULL;
-		}
-		else {
-			ant->prox = p->prox;
-		}
-		free(p);
-	}
-}
-
-//void eliminar_rec_a(Lista *L, NoAluno* anterior, NoAluno* atual, Aluno *X, int *erro){
-//	
-//	if(atual == NULL)
-//		*erro = 1;
-//	else if(atual->info == *X){
-//		if(atual == L->inicio){
-//			L->inicio = L->inicio->prox;
-//			if(L->inicio == NULL)
-//				L->fim = NULL;
-//		} else if(atual == L->fim){
-//			L->fim = anterior;
-//			L->fim->prox = NULL;		
-//		} else anterior->prox = atual->prox;
-//		free(atual);
-//		*erro = 0;
-//	}else eliminar_rec_a(L, atual, atual->prox, X, erro);
-//	
-//}
-
-int esta_na_lista_a(ListaAluno *L, Aluno *X){
+int esta_na_lista_a(ListaAluno *L, int *nUsp){
 	
 	NoAluno *p;
 	p=L->inicio;
 	
-	while((p != NULL) && (&p->info != X)){
+	while((p != NULL)&&(p->info->nUsp != *nUsp)){
 		p=p->prox;
 	}
 	
@@ -128,23 +71,56 @@ int esta_na_lista_a(ListaAluno *L, Aluno *X){
 	
 }
 
-//int esta_na_lista_rec_a(NoAluno *p, Aluno *X){
-//	
-//	if(p == NULL)
-//		return 0;
-//		else if (p->info==*X)
-//			return 1;
-//			else 
-//				return esta_na_lista_rec(p->prox,X);
-//		
-//}
-
-NoAluno *busca_na_lista_a(ListaAluno *alunos, int *nUsp) {
-	NoAluno *a = alunos->inicio;
+void eliminar_a(ListaAluno *L, int *nUsp, int *erro) {
+	NoAluno *p, *ant = NULL;
+	p = L->inicio;
 	
-	while((a != NULL) && (a->info.nUsp != *nUsp)) {
-		a = a->prox;
+	while(p != NULL && p->info->nUsp != *nUsp) {
+		ant = p;
+		p = p->prox;
 	}
 	
-	return a;
+	if(p == NULL) {
+		*erro = 1;
+	}
+	else {
+		*erro = 0;
+		if(p == L->inicio){
+			L->inicio = L->inicio->prox;
+			if(L->inicio == NULL)
+				L->fim = NULL;
+		} else if(p == L->fim){
+			L->fim = ant;
+			L->fim->prox = NULL;		
+		} else ant->prox = p->prox;
+		free(p);
+	}
+}
+
+void buscar_a(ListaAluno *L, Aluno *a, int *nUsp, int *erro) {
+	NoAluno *p;
+	p=L->inicio;
+	
+	while((p != NULL)&&(p->info->nUsp != *nUsp)){
+		p=p->prox;
+	}
+	
+	if(p == NULL) {
+		*erro = 1;
+	}
+	else {
+		*erro = 0;
+		*a = *p->info;
+	}
+}
+
+Aluno *retorna_a(ListaAluno *L, int *nUsp) {
+	NoAluno *p;
+	p = L->inicio;
+	
+	while((p != NULL)&&(p->info->nUsp != *nUsp)){
+		p=p->prox;
+	}
+	
+	return p->info;
 }

@@ -1,35 +1,35 @@
 #include "PilhaMensagem.h"
+#include <string.h>
 
 void Create(Pilha *P){
 	P->topo = NULL;	
 }
 
-void Push(Pilha *P, char *X, int *erro){
+void Push(Pilha *P, elem *X, int *erro){
 	
-	NoMensagem *pont;
+	no *pont;
 	
-	pont = (NoMensagem*)malloc(sizeof(NoMensagem));
+	pont = (no*)malloc(sizeof(no));
 	
 	if(pont==NULL)
 		*erro = 1;
 		else {
 			*erro = 0;
-			pont->info = (char *) malloc(50*sizeof(char));
 			strcpy(pont->info, X);
 			pont->prox = P->topo;
 			P->topo = pont;			
 		}
 }
 
-void Pop(Pilha *P, char *X, int *erro){
+void Pop(Pilha *P, elem *X, int *erro){
 	
-	NoMensagem *pont;
+	no *pont;
 	
 	if(IsEmpty(P))
 		*erro = 1;
 		else {
 			*erro = 0;
-			X = P->topo->info;
+			strcpy(X, P->topo->info);
 			pont = P->topo;
 			P->topo = P->topo->prox;
 			free(pont);

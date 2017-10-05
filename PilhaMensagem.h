@@ -1,23 +1,22 @@
-#ifndef PILHA_MENSAGEM_H
-#define PILHA_MENSAGEM_H
+#ifndef pilha
+#define pilha
 
 #include <stdlib.h>
-#include <string.h>
 
-typedef struct noMensagem {
-	char *info;
-	struct noMensagem *prox;
-} NoMensagem;
+typedef char elem;
 
-struct pilha {
-	NoMensagem *topo;
-};
+typedef struct bloco{
+	elem info[100];
+	struct bloco *prox;
+} no;
 
-typedef struct pilha Pilha;
+typedef struct pilha {
+	no* topo;
+} Pilha;
 
 void Create(Pilha *P);
-void Push(Pilha *P, char *X, int *erro);
-void Pop(Pilha *P, char *X, int *erro);
+void Push(Pilha *P, elem *X, int *erro);
+void Pop(Pilha *P, elem *X, int *erro);
 int IsEmpty(Pilha *P);
 
 #endif
