@@ -1,45 +1,57 @@
+/*
+	Alunos: 
+		Felipe Veloso		n�Usp: 10349529
+		Lucas Mantovani		n�Usp: 10258942
+
+*/
+
 #include "PilhaMensagem.h"
 #include <string.h>
 
-void Create(Pilha *P){
-	P->topo = NULL;	
+void Create(Pilha *P)
+{
+	P->topo = NULL;
 }
 
-void Push(Pilha *P, elem *X, int *erro){
-	
+void Push(Pilha *P, elem *X, int *erro)
+{
+
 	no *pont;
-	
-	pont = (no*)malloc(sizeof(no));
-	
-	if(pont==NULL)
+
+	pont = (no *)malloc(sizeof(no));
+
+	if (pont == NULL)
 		*erro = 1;
-		else {
-			*erro = 0;
-			strcpy(pont->info, X);
-			pont->prox = P->topo;
-			P->topo = pont;			
-		}
+	else
+	{
+		*erro = 0;
+		strcpy(pont->info, X);
+		pont->prox = P->topo;
+		P->topo = pont;
+	}
 }
 
-void Pop(Pilha *P, elem *X, int *erro){
-	
+void Pop(Pilha *P, elem *X, int *erro)
+{
+
 	no *pont;
-	
-	if(IsEmpty(P))
+
+	if (IsEmpty(P))
 		*erro = 1;
-		else {
-			*erro = 0;
-			strcpy(X, P->topo->info);
-			pont = P->topo;
-			P->topo = P->topo->prox;
-			free(pont);
-		}
+	else
+	{
+		*erro = 0;
+		strcpy(X, P->topo->info);
+		pont = P->topo;
+		P->topo = P->topo->prox;
+		free(pont);
+	}
 }
-	
-int IsEmpty(Pilha *P){
-	if(P->topo == NULL)
+
+int IsEmpty(Pilha *P)
+{
+	if (P->topo == NULL)
 		return 1;
-		else return 0;
+	else
+		return 0;
 }
-
-

@@ -1,19 +1,19 @@
 /*
 	Alunos: 
-		Felipe Veloso		nï¿½Usp: 10349529
-		Lucas Mantovani		nï¿½Usp: 10258942
+		Felipe Veloso		nºUsp: 10349529
+		Lucas Mantovani		nºUsp: 10258942
 
 */
 
 #ifndef biblioteca_dinamica_h
 #define biblioteca_dinamica_h
 
-#include "ListaAluno.h"
-#include "ListaLivro.h"
+#include "BancoAluno.h"
+#include "BancoLivro.h"
 
 // Funcao que realiza o cadastro do aluno na lista.
 // Inclui a criacao de um novo aluno e da sua pilha de mensagens.
-// E a inclusao do mesmo na lista de alunos
+// E a inclusao do mesmo na fila de alunos
 int CadastrarAluno(ListaAluno *L, int *nUsp, char *nome, char *email, char *telefone);
 // Remove o aluno buscado pelo nUsp da lista de alunos
 int RemoverAluno(ListaAluno *L, int *nUsp);
